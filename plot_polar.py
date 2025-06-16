@@ -50,7 +50,7 @@ CD_means = []
 LD_means = []
 
 for coef_path in files:
-    # Remonte 3 fois pour atterrir sur "alpha_m2_postProcessing"
+    
     case_dir = os.path.basename(
         os.path.dirname(
             os.path.dirname(
@@ -59,7 +59,7 @@ for coef_path in files:
         )
     )
     alpha_str = case_dir.replace("alpha_", "").replace("_postProcessing", "")
-    # Conversion en nombre
+    
     if alpha_str.startswith("m"):
         alpha = -int(alpha_str[1:])
     else:
@@ -73,7 +73,7 @@ for coef_path in files:
     CL_means.append(Cl[-5:].mean())
     LD_means.append(Cl[-5:].mean() / Cd[-5:].mean())
 
-# Tri par alpha
+
 idx = np.argsort(alphas)
 alphas = np.array(alphas)[idx]
 CL_means = np.array(CL_means)[idx]
@@ -81,7 +81,7 @@ CD_means = np.array(CD_means)[idx]
 LD_means = np.array(LD_means)[idx]
 
 
-# Tracés
+
 plt.figure(figsize=(7, 7))
 plt.plot(alphas, CL_means, 'o-')
 plt.xticks(fontsize=20); plt.yticks(fontsize=20);
