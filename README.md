@@ -16,6 +16,6 @@ Inlet velocity: **100 m/s (Ma ≈ 0,3)**, angles d’attaque **–5 ° → 20 °
 
 ## Results
 
-| Visualisation Paraview | Courbe \(C_L\) vs \(\alpha\) |
+| Visualisation Paraview | Courbe \(CL\) vs \(α\) |
 |:----------------------:|:-----------------------------:|
 | ![Paraview](Visualisation_paraView.png) | ![CL vs alpha](Figures/CL_vs_alpha.png) |
