@@ -1,0 +1,116 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2412                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     rhoPimpleFoam; // rhoSimpleFoam;  rhoPimpleFoam; 
+
+startFrom       startTime;
+startTime       0;
+
+stopAt          endTime;
+endTime         0.15;
+
+adjustTimeStep  yes;
+maxCo           0.5;
+maxDeltaT       1e-4;
+deltaT          1e-5; 
+
+//writeControl    timeStep;
+//writeInterval   100;  
+writeControl    adjustableRunTime; 
+writeInterval   0.01;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+writePrecision  6;
+writeCompression off;
+
+timeFormat      general; 
+timePrecision   6;
+
+runTimeModifiable true;
+
+
+functions
+{
+    residuals
+    {
+        type        	solverInfo;
+        libs        	("libutilityFunctionObjects.so");
+        fields      	(U p T k omega e);
+        writeControl	adjustableRunTime;
+        writeInterval	0.01;
+        log        	yes;
+    }
+
+    forces
+    {
+        type        	forces;
+        libs        	("libforces.so");
+        patches     	(Airfoil);   
+        CofR      	(1 0 0);       
+        log         	yes;
+        writeControl	adjustableRunTime;
+        writeInterval	0.01;
+    }
+
+    forceCoeffs
+    {
+        type        	forceCoeffs;
+        libs        	("libforces.so");
+        patches     	(Airfoil);
+	rhoInf        	1.16;
+        magUInf     	100; 
+        CofR        	(1 0 0);
+        liftDir     	(0 1 0);      
+        dragDir     	(1 0 0);       
+        pitchAxis   	(0 0 1);
+        lRef        	1; 
+        Aref        	1; 
+        log         	yes;
+        writeControl	adjustableRunTime;
+        writeInterval 	0.01;
+    }
+
+    yPlus
+    {
+        type            yPlus;
+        libs            ("libfieldFunctionObjects.so");
+        writeControl    adjustableRunTime;
+        writeInterval   0.01;
+        log             yes;
+    }
+
+    yPlusStats
+    {
+        type            patchSummary;
+        libs            ("libfieldFunctionObjects.so");
+        writeControl    adjustableRunTime;
+        writeInterval   0.01;
+        log             yes;
+
+        patches         (Airfoil);  
+        fields          (yPlus);
+    }
+}
+
+
+
+// ************************************************************************* //
+
+
+
+
